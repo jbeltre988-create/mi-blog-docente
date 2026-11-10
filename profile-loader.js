@@ -23,7 +23,7 @@
   'use strict';
 
   // Avatar genérico por defecto — el docente lo reemplaza desde perfil.html
-  const DEFAULT_PHOTO = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="%236750A4" rx="60"/><text x="60" y="72" text-anchor="middle" font-size="48" font-family="sans-serif" fill="white">👩‍🏫</text></svg>');
+  const DEFAULT_PHOTO = 'img/johan-beltre.jpg';
 
   let cachedProfile = null;
 
@@ -41,7 +41,7 @@
   }
 
   function firstName(fullName) {
-    // Extract first name after title: "Lic. Ramona Almonte" → "Ramona"
+    // Extract first name after title: "Lic. Johan Beltre" → "Johan"
     const parts = fullName.trim().split(/\s+/);
     if (parts.length <= 1) return fullName;
     // Skip title-like prefixes
@@ -90,7 +90,7 @@
           el.textContent = `Por ${titleName}`;
           break;
         case 'emptyGreeting':
-          el.textContent = `¡Bandeja al día, ${p.title ? p.title + ' ' : 'Maestra '}${firstName(p.name)}!`;
+          el.textContent = `¡Bandeja al día, ${p.title ? p.title + ' ' : 'Docente '}${firstName(p.name)}!`;
           break;
         case 'districtQuota':
           el.textContent = `Cuota institucional del ${p.school}`;

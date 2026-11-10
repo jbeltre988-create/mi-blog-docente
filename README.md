@@ -5,6 +5,7 @@ Blog educativo para docentes de nivel primario y secundario en República Domini
 ## Pantallas
 
 - **Inicio** — Página principal con artículos destacados y áreas curriculares
+- **Docente** — Perfil público del Lic. Johan Beltre (`docente.html`)
 - **Publicaciones** — Listado de publicaciones educativas
 - **Lectura** — Vista de lectura de artículos
 - **Recursos** — Recursos didácticos descargables
@@ -20,6 +21,8 @@ Blog educativo para docentes de nivel primario y secundario en República Domini
 - IndexedDB para persistencia local (db.js)
 - Google Material Symbols
 - Tipografías: Literata + Source Sans 3
+- `aula-vivo.css` / `aula-vivo.js` — barra superior animada, navegación activa, búsqueda en vivo, reto interactivo y efectos
+- `img/` — foto del docente (se puede cambiar desde `perfil.html`)
 
 ## Despliegue
 

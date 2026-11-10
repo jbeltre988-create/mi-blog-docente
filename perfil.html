@@ -23,6 +23,7 @@ body { min-height: max(884px, 100dvh); }
 .field-group textarea { resize: vertical; min-height: 80px; }
 .field-group .hint { font-size: 12px; color: #75777f; margin-top: 4px; }
 </style>
+<link href="aula-vivo.css" rel="stylesheet"/>
 </head>
 <body class="bg-surface font-body-md text-on-surface antialiased">
 <script src="db.js"></script>
@@ -104,7 +105,7 @@ body { min-height: max(884px, 100dvh); }
 
     <div class="field-group">
       <label for="f-specialty">Área de especialidad</label>
-      <input type="text" id="f-specialty" placeholder="Ej: Educación Primaria • Mención Ciencias" maxlength="80"/>
+      <input type="text" id="f-specialty" placeholder="Ej: Docente • Educación y Tecnología" maxlength="80"/>
     </div>
 
     <div class="flex items-center gap-2 mb-4 mt-4">
@@ -287,17 +288,18 @@ function showToast(message, type) {
   document.getElementById('btn-reset').addEventListener('click', async () => {
     if (!confirm('¿Restaurar los datos de ejemplo? Se perderán tus datos actuales.')) return;
     await db.updateTeacherProfile({
-      name: 'Lic. Ramona Almonte',
+      name: 'Johan Beltre',
       title: 'Lic.',
-      role: 'Especialista en Didáctica',
-      specialty: 'Educación Primaria • Mención Ciencias',
-      school: 'Distrito Educativo 10-01',
-      yearsExperience: 14,
-      bio: 'Educar con ternura y firmeza es encender una antorcha que nunca dejará de alumbrar el porvenir de nuestra patria.',
-      photoUrl: ''
+      role: 'Docente',
+      specialty: 'Docente • Educación y Tecnología',
+      school: 'República Dominicana',
+      yearsExperience: 0,
+      bio: 'Enseñar es sembrar curiosidad hoy para cosechar futuro mañana.',
+      photoUrl: 'img/johan-beltre.jpg'
     });
     location.reload();
   });
 })();
 </script>
+<script src="aula-vivo.js"></script>
 </body></html>

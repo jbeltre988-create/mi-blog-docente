@@ -9,6 +9,19 @@
 const DB_NAME = 'AulaAbiertaDB';
 const DB_VERSION = 1;
 
+// Perfil público por defecto del docente (editable desde perfil.html)
+const OWNER_PROFILE = {
+  key: 'teacherProfile',
+  name: 'Johan Beltre',
+  title: 'Lic.',
+  role: 'Docente',
+  specialty: 'Docente • Educación y Tecnología',
+  school: 'República Dominicana',
+  yearsExperience: 0,
+  bio: 'Enseñar es sembrar curiosidad hoy para cosechar futuro mañana.',
+  photoUrl: 'img/johan-beltre.jpg'
+};
+
 class StorageService {
   constructor() {
     this.db = null;
@@ -101,8 +114,8 @@ class StorageService {
           status: 'published', // 'published', 'draft', 'scheduled'
           coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
           coverAlt: 'Esquema y paisaje del ciclo hidrológico en la naturaleza',
-          author: 'Lic. Ramona Almonte',
-          role: 'Especialista en Didáctica',
+          author: 'Lic. Johan Beltre',
+          role: 'Docente',
           views: 2450,
           createdAt: new Date('2025-03-14T08:30:00Z').getTime(),
           content: `
@@ -278,8 +291,8 @@ class StorageService {
           status: 'draft',
           coverImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
           coverAlt: 'Paisaje de manglar rojo costero',
-          author: 'Lic. Ramona Almonte',
-          role: 'Especialista en Didáctica',
+          author: 'Lic. Johan Beltre',
+          role: 'Docente',
           views: 0,
           createdAt: new Date('2025-03-15T09:00:00Z').getTime(),
           content: `
@@ -383,19 +396,44 @@ class StorageService {
       // Sembrar perfil docente por defecto (editable desde perfil.html)
       const settingsCount = await this._countRaw('settings');
       if (settingsCount === 0) {
-        await this._putRaw('settings', {
-          key: 'teacherProfile',
-          name: 'Lic. Ramona Almonte',
-          title: 'Lic.',
-          role: 'Especialista en Didáctica',
-          specialty: 'Educación Primaria • Mención Ciencias',
-          school: 'Distrito Educativo 10-01',
-          yearsExperience: 14,
-          bio: 'Educar con ternura y firmeza es encender una antorcha que nunca dejará de alumbrar el porvenir de nuestra patria.',
-          photoUrl: '',
-          updatedAt: Date.now()
-        });
+        await this._putRaw('settings', { ...OWNER_PROFILE, updatedAt: Date.now() });
       }
+    }
+    // Navegadores que ya tenían el perfil anterior guardado se actualizan aquí
+    await this._migrateOwnerProfile();
+  }
+
+  // ── Migración: reemplaza el perfil de ejemplo anterior por el del docente actual ──
+  async _migrateOwnerProfile() {
+    const OLD_NAME = 'Lic. Ramona Almonte';
+    const rawGet = (store, key) => new Promise((resolve, reject) => {
+      const req = this.db.transaction([store], 'readonly').objectStore(store).get(key);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+    const rawAll = (store) => new Promise((resolve, reject) => {
+      const req = this.db.transaction([store], 'readonly').objectStore(store).getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    try {
+      const profile = await rawGet('settings', 'teacherProfile');
+      if (profile && profile.name === OLD_NAME) {
+        await this._putRaw('settings', { ...OWNER_PROFILE, updatedAt: Date.now() });
+      } else if (profile && profile.name === 'Lic. Johan Beltre' && profile.title === 'Lic.') {
+        // El título se guarda aparte: evita mostrar "Lic. Lic. Johan Beltre"
+        await this._putRaw('settings', { ...profile, name: OWNER_PROFILE.name, photoUrl: profile.photoUrl || OWNER_PROFILE.photoUrl, updatedAt: Date.now() });
+      } else if (profile && profile.name === OWNER_PROFILE.name && !profile.photoUrl) {
+        await this._putRaw('settings', { ...profile, photoUrl: OWNER_PROFILE.photoUrl, updatedAt: Date.now() });
+      }
+      const articles = await rawAll('articles');
+      for (const art of articles) {
+        if (art.author === OLD_NAME) {
+          await this._putRaw('articles', { ...art, author: OWNER_PROFILE.title + ' ' + OWNER_PROFILE.name, role: OWNER_PROFILE.role });
+        }
+      }
+    } catch (e) {
+      console.warn('[db] No se pudo migrar el perfil:', e);
     }
   }
 
