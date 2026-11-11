@@ -23,7 +23,7 @@
   'use strict';
 
   // Avatar genérico por defecto — el docente lo reemplaza desde perfil.html
-  const DEFAULT_PHOTO = 'img/johan-beltre.jpg';
+  const DEFAULT_PHOTO = 'img/ruht-mateo.jpg';
 
   let cachedProfile = null;
 
@@ -41,7 +41,7 @@
   }
 
   function firstName(fullName) {
-    // Extract first name after title: "Lic. Johan Beltre" → "Johan"
+    // Extract first name after title: "Lic. Ruht Mateo" → "Ruht"
     const parts = fullName.trim().split(/\s+/);
     if (parts.length <= 1) return fullName;
     // Skip title-like prefixes

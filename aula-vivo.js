@@ -100,7 +100,7 @@
     var sub = header.querySelector('span.text-secondary.truncate');
     if (sub && !reduce) {
       var original = sub.textContent.trim();
-      var teacher = 'Lic. Johan Beltre';
+      var teacher = 'Lic. Ruht Mateo';
       if (typeof window.getTeacherProfile === 'function') {
         window.getTeacherProfile().then(function (p) {
           if (p && p.name) teacher = (p.title ? p.title + ' ' : '') + p.name;

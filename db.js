@@ -12,14 +12,14 @@ const DB_VERSION = 1;
 // Perfil público por defecto del docente (editable desde perfil.html)
 const OWNER_PROFILE = {
   key: 'teacherProfile',
-  name: 'Johan Beltre',
+  name: 'Ruht Mateo',
   title: 'Lic.',
   role: 'Docente',
   specialty: 'Docente • Educación y Tecnología',
   school: 'República Dominicana',
   yearsExperience: 0,
   bio: 'Enseñar es sembrar curiosidad hoy para cosechar futuro mañana.',
-  photoUrl: 'img/johan-beltre.jpg'
+  photoUrl: 'img/ruht-mateo.jpg'
 };
 
 class StorageService {
@@ -114,7 +114,7 @@ class StorageService {
           status: 'published', // 'published', 'draft', 'scheduled'
           coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
           coverAlt: 'Esquema y paisaje del ciclo hidrológico en la naturaleza',
-          author: 'Lic. Johan Beltre',
+          author: 'Lic. Ruht Mateo',
           role: 'Docente',
           views: 2450,
           createdAt: new Date('2025-03-14T08:30:00Z').getTime(),
@@ -291,7 +291,7 @@ class StorageService {
           status: 'draft',
           coverImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
           coverAlt: 'Paisaje de manglar rojo costero',
-          author: 'Lic. Johan Beltre',
+          author: 'Lic. Ruht Mateo',
           role: 'Docente',
           views: 0,
           createdAt: new Date('2025-03-15T09:00:00Z').getTime(),
@@ -420,15 +420,15 @@ class StorageService {
       const profile = await rawGet('settings', 'teacherProfile');
       if (profile && profile.name === OLD_NAME) {
         await this._putRaw('settings', { ...OWNER_PROFILE, updatedAt: Date.now() });
-      } else if (profile && profile.name === 'Lic. Johan Beltre' && profile.title === 'Lic.') {
-        // El título se guarda aparte: evita mostrar "Lic. Lic. Johan Beltre"
-        await this._putRaw('settings', { ...profile, name: OWNER_PROFILE.name, photoUrl: profile.photoUrl || OWNER_PROFILE.photoUrl, updatedAt: Date.now() });
+      } else if (profile && (profile.name === 'Johan Beltre' || profile.name === 'Lic. Johan Beltre')) {
+        // Perfil anterior (Johan Beltre): pasa al perfil actual con su nueva foto
+        await this._putRaw('settings', { ...profile, name: OWNER_PROFILE.name, title: OWNER_PROFILE.title, photoUrl: OWNER_PROFILE.photoUrl, updatedAt: Date.now() });
       } else if (profile && profile.name === OWNER_PROFILE.name && !profile.photoUrl) {
         await this._putRaw('settings', { ...profile, photoUrl: OWNER_PROFILE.photoUrl, updatedAt: Date.now() });
       }
       const articles = await rawAll('articles');
       for (const art of articles) {
-        if (art.author === OLD_NAME) {
+        if (art.author === OLD_NAME || art.author === 'Lic. Johan Beltre') {
           await this._putRaw('articles', { ...art, author: OWNER_PROFILE.title + ' ' + OWNER_PROFILE.name, role: OWNER_PROFILE.role });
         }
       }

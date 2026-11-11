@@ -288,14 +288,14 @@ function showToast(message, type) {
   document.getElementById('btn-reset').addEventListener('click', async () => {
     if (!confirm('¿Restaurar los datos de ejemplo? Se perderán tus datos actuales.')) return;
     await db.updateTeacherProfile({
-      name: 'Johan Beltre',
+      name: 'Ruht Mateo',
       title: 'Lic.',
       role: 'Docente',
       specialty: 'Docente • Educación y Tecnología',
       school: 'República Dominicana',
       yearsExperience: 0,
       bio: 'Enseñar es sembrar curiosidad hoy para cosechar futuro mañana.',
-      photoUrl: 'img/johan-beltre.jpg'
+      photoUrl: 'img/ruht-mateo.jpg'
     });
     location.reload();
   });

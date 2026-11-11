@@ -5,7 +5,7 @@ Blog educativo para docentes de nivel primario y secundario en República Domini
 ## Pantallas
 
 - **Inicio** — Página principal con artículos destacados y áreas curriculares
-- **Docente** — Perfil público del Lic. Johan Beltre (`docente.html`)
+- **Docente** — Perfil público de Lic. Ruht Mateo (`docente.html`)
 - **Publicaciones** — Listado de publicaciones educativas
 - **Lectura** — Vista de lectura de artículos
 - **Recursos** — Recursos didácticos descargables

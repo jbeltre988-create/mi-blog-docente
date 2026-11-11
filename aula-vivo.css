@@ -251,3 +251,177 @@ body.av-public main button.bg-tertiary-fixed { background: linear-gradient(120de
 }
 
 .av-ripple-host { position: relative; overflow: hidden; flex-shrink: 0; }
+
+
+/* ==========================================================================
+   CAPA 3D — barras, iconos, botones y tarjetas con volumen
+   Para ajustar la fuerza del efecto cambia estas variables.
+   ========================================================================== */
+:root {
+  --d3-depth: 5px;                       /* grosor del borde 3D de botones */
+  --d3-lift: 14px;                       /* altura de la sombra proyectada */
+  --d3-gloss: .45;                       /* brillo superior (0 a 1) */
+}
+
+/* texto/icono extruido: varias sombras apiladas forman el "grosor" */
+.d3-extrude, header.fixed .material-symbols-outlined {
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.22), 0 2px 0 rgba(0,0,0,.2), 0 3px 0 rgba(0,0,0,.18),
+    0 4px 0 rgba(0,0,0,.16), 0 8px 10px rgba(0,0,0,.28);
+}
+
+/* ───────── BARRA SUPERIOR EN 3D ───────── */
+header.fixed {
+  perspective: 900px;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.65),
+    inset 0 -8px 14px rgba(40, 8, 120, .28),
+    0 7px 0 #3a169f,
+    0 calc(7px + var(--d3-lift)) 30px rgba(58, 22, 159, .5) !important;
+}
+header.fixed.av-scrolled {
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.65),
+    inset 0 -8px 14px rgba(40, 8, 120, .28),
+    0 5px 0 #3a169f,
+    0 calc(5px + var(--d3-lift)) 26px rgba(58, 22, 159, .5) !important;
+}
+/* reflejo de cristal en la mitad de arriba */
+header.fixed::before {
+  content: ""; position: absolute; inset: 0 0 52% 0; pointer-events: none; z-index: 1;
+  background: linear-gradient(180deg, rgba(255,255,255,var(--d3-gloss)), rgba(255,255,255,0));
+  border-bottom-left-radius: 60% 40%; border-bottom-right-radius: 60% 40%;
+}
+header.fixed > div:first-child { position: relative; z-index: 2; }
+header.fixed .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 600; }
+
+/* botones de la barra como teclas 3D */
+header.fixed button, header.fixed a.w-11 {
+  background: linear-gradient(165deg, rgba(255,255,255,.55), rgba(255,255,255,.14)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 var(--d3-depth) 0 rgba(48, 14, 140, .55),
+    0 calc(var(--d3-depth) + 6px) 12px rgba(0,0,0,.3);
+  transform: translateY(-2px);
+}
+header.fixed button:hover, header.fixed a.w-11:hover {
+  background: linear-gradient(165deg, rgba(255,255,255,.7), rgba(255,255,255,.22)) !important;
+  transform: translateY(-4px) scale(1.06) rotateX(8deg);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 calc(var(--d3-depth) + 2px) 0 rgba(48, 14, 140, .55),
+    0 calc(var(--d3-depth) + 12px) 16px rgba(0,0,0,.32);
+}
+header.fixed button:active, header.fixed a.w-11:active {
+  transform: translateY(2px) scale(.97);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 1px 0 rgba(48, 14, 140, .55), 0 3px 6px rgba(0,0,0,.25);
+}
+/* foto de perfil con relieve */
+header.fixed img[alt="Profile"], header.fixed img[data-tp="photo"] {
+  box-shadow: 0 3px 0 rgba(48,14,140,.55), 0 6px 12px rgba(0,0,0,.3);
+}
+/* logo como placa en relieve */
+header.fixed img[alt="Logo Aula Abierta"] {
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.08), 0 3px 0 #b9b2e6, 0 8px 12px rgba(0,0,0,.28);
+}
+
+/* ───────── BARRA INFERIOR EN 3D ───────── */
+nav.fixed.bottom-0 {
+  background: linear-gradient(180deg, #ffffff 0%, #ece9ff 100%) !important;
+  box-shadow:
+    inset 0 2px 0 #fff,
+    inset 0 -3px 0 rgba(91,46,255,.08),
+    0 -3px 0 #cfc8f7,
+    0 -14px 30px rgba(91, 46, 255, .26) !important;
+}
+nav.fixed.bottom-0 a { perspective: 400px; }
+nav.fixed.bottom-0 a .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 600;
+  background: linear-gradient(165deg, #ffffff, #e6e2fb);
+  border-radius: 16px; padding: 4px 14px;
+  box-shadow:
+    inset 0 2px 0 #fff,
+    0 4px 0 color-mix(in srgb, var(--c1, #5b2eff) 40%, #b7b0dc),
+    0 9px 12px rgba(40, 20, 120, .22);
+  text-shadow:
+    0 1px 0 color-mix(in srgb, var(--c1, #5b2eff) 60%, #000),
+    0 2px 0 color-mix(in srgb, var(--c1, #5b2eff) 55%, #000),
+    0 3px 3px rgba(0,0,0,.25);
+}
+nav.fixed.bottom-0 a:hover .material-symbols-outlined { transform: translateY(-3px) rotateX(14deg); }
+nav.fixed.bottom-0 a:active .material-symbols-outlined { transform: translateY(3px); box-shadow: inset 0 2px 0 #fff, 0 1px 0 #b7b0dc, 0 3px 5px rgba(40,20,120,.2); }
+nav.fixed.bottom-0 a.av-active .material-symbols-outlined {
+  background: linear-gradient(165deg, var(--c2), var(--c1));
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.55),
+    inset 0 -4px 6px rgba(0,0,0,.18),
+    0 5px 0 color-mix(in srgb, var(--c1) 62%, #000),
+    0 12px 18px color-mix(in srgb, var(--c1) 55%, transparent);
+  text-shadow: 0 1px 0 rgba(0,0,0,.22), 0 2px 0 rgba(0,0,0,.18), 0 5px 6px rgba(0,0,0,.3);
+}
+
+/* ───────── ICONOS RÁPIDOS (inicio) COMO CUBOS 3D ───────── */
+.av-ico.i1 { --sh: #2b0f9c; } .av-ico.i2 { --sh: #a11262; }
+.av-ico.i3 { --sh: #b35c00; } .av-ico.i4 { --sh: #007a62; }
+.av-quick .av-ico {
+  transform-style: preserve-3d;
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.55),
+    inset 0 -5px 8px rgba(0,0,0,.22),
+    0 7px 0 var(--sh, #333),
+    0 16px 22px rgba(0,0,0,.28) !important;
+}
+.av-quick .av-ico::before {
+  content: ""; position: absolute; inset: 0 0 50% 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+}
+.av-quick .av-ico .material-symbols-outlined {
+  position: relative;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25), 0 2px 0 rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.2), 0 4px 0 rgba(0,0,0,.18), 0 9px 10px rgba(0,0,0,.35);
+}
+.av-quick a:hover .av-ico { transform: perspective(300px) rotateX(14deg) rotateY(-12deg) translateY(-5px) scale(1.08); border-radius: 24px; }
+.av-quick a:active .av-ico { transform: translateY(5px); box-shadow: inset 0 3px 0 rgba(255,255,255,.45), 0 2px 0 var(--sh, #333), 0 5px 8px rgba(0,0,0,.25) !important; }
+
+/* ───────── ÁREAS CURRICULARES Y TARJETAS ───────── */
+.av-area {
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.4),
+    inset 0 -6px 10px rgba(0,0,0,.14),
+    0 6px 0 rgba(0,0,0,.2),
+    0 16px 24px rgba(0,0,0,.18) !important;
+  transition: transform .3s var(--av-ease), box-shadow .3s var(--av-ease);
+}
+.av-area:hover { transform: perspective(700px) rotateX(5deg) rotateY(-5deg) translateY(-4px); }
+.av-area:active { transform: translateY(4px); box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 2px 0 rgba(0,0,0,.2), 0 6px 10px rgba(0,0,0,.18) !important; }
+.av-area .rounded-lg {
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.55), 0 4px 0 rgba(0,0,0,.2), 0 8px 12px rgba(0,0,0,.2);
+}
+.av-area .rounded-lg .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25), 0 2px 0 rgba(0,0,0,.2), 0 3px 0 rgba(0,0,0,.18), 0 7px 8px rgba(0,0,0,.3);
+}
+.av-card:hover { transform: perspective(800px) rotateX(3deg) rotateY(-3deg) translateY(-6px) scale(1.015); }
+.av-stat {
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.4), 0 4px 0 rgba(0,0,0,.14), 0 8px 12px rgba(0,0,0,.12);
+}
+
+/* botones principales con borde grueso que se hunde al pulsar */
+body.av-public main a.bg-primary-container, body.av-public main button.bg-secondary, body.av-public main a.bg-secondary, body.av-public main button.bg-primary-container {
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.4), 0 var(--d3-depth) 0 #4b1fb8, 0 calc(var(--d3-depth) + 8px) 16px rgba(255, 46, 147, .35) !important;
+}
+body.av-public main a.bg-primary-container:hover, body.av-public main button.bg-secondary:hover, body.av-public main a.bg-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 calc(var(--d3-depth) + 3px) 0 #4b1fb8, 0 calc(var(--d3-depth) + 14px) 20px rgba(255, 46, 147, .4) !important;
+}
+body.av-public main a.bg-primary-container:active, body.av-public main button.bg-secondary:active, body.av-public main a.bg-secondary:active, body.av-public main button.bg-primary-container:active {
+  transform: translateY(4px);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.3), 0 1px 0 #4b1fb8, 0 3px 6px rgba(255, 46, 147, .3) !important;
+}
+
+/* foto del perfil con relieve */
+.av-avatar { box-shadow: 0 6px 0 rgba(60, 20, 160, .35), 0 16px 26px rgba(0,0,0,.28); }
+
+@media (prefers-reduced-motion: reduce) {
+  header.fixed button:hover, header.fixed a.w-11:hover, .av-area:hover, .av-card:hover,
+  .av-quick a:hover .av-ico, nav.fixed.bottom-0 a:hover .material-symbols-outlined { transform: none; }
+}
